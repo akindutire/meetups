@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("/join/")
+@RequestMapping("/reg/")
 class RegistrationCtrl {
 
-    @GetMapping
-    fun welcome(@RequestBody registrationReq: RegistrationReq) : ResponseEntity<Any> {
+    @GetMapping("status")
+    fun welcome() : ResponseEntity<Any> {
 
         val map = HashMap<String, String?>()
         map.put("data", "Active")
@@ -21,7 +21,7 @@ class RegistrationCtrl {
         return res
     }
 
-    @PostMapping("m")
+    @PostMapping("join")
     fun join(@RequestBody registrationReq: RegistrationReq) : ResponseEntity<Any> {
 
         val map = HashMap<String, Objects?>()
