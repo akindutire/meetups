@@ -1,8 +1,9 @@
 HELP.md
+appspec.yml
 target/
 !.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+!**/src/main/**
+!**/src/test/**
 
 ### STS ###
 .apt_generated
@@ -26,8 +27,17 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### VS Code ###
+.DS_Store
 .vscode/
+.gradle/
+/aza.pem
+/aza-ssh-pukky.ppk
+/src/.DS_Store
+/src/test/.DS_Store
+/src/main/resources/application-local.properties
+/src/main/resources/application-gcplocal.properties
+/src/test/java/com/fintech/azapay/AppTests.java
+/src/test/java/com/fintech/azapay/BaseTest.java
+/src/main/resources/application-localkeystore.properties
