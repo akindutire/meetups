@@ -16,13 +16,14 @@ spring:
           uri: lb://USER-REG
           predicates:
             - Path=/api/register/**
-            - Method=GET,POST,PATCH
+            - Method=GET,POST
           filters:
             - RewritePath=/api/register/(?<segment>.*), /reg/$\{segment}
         - id : pwd_res_r
           uri: lb://PWD-RESET
           predicates:
             - Path=/api/password/reset/**
+            - Method=GET,POST,PUT
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
 

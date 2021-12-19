@@ -1,6 +1,6 @@
 package com.meet.user.registration.controller.api
 
-import com.meet.user.registration.request.core.RegistrationReq
+import com.meet.user.registration.request.core.RegReq
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -22,7 +22,7 @@ class RegistrationCtrl {
     }
 
     @PostMapping("join")
-    fun join(@RequestBody registrationReq: RegistrationReq) : ResponseEntity<Any> {
+    fun join(@RequestBody registrationReq: RegReq) : ResponseEntity<Any> {
 
         val map = HashMap<String, Objects?>()
         map.put("data", null)
