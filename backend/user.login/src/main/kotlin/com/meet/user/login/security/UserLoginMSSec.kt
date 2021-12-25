@@ -1,7 +1,5 @@
-package com.meet.user.registration.security
+package com.meet.user.login.security
 
-import com.meet.user.registration.prop.AppProp
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -11,18 +9,14 @@ import org.springframework.security.config.http.SessionCreationPolicy
 
 @Configuration
 @EnableWebSecurity
-class UserRegMsWebSecurity: WebSecurityConfigurerAdapter() {
-
-    @Autowired
-    lateinit var prop: AppProp
-
+class UserLoginMSSec: WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.csrf().disable().cors()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-            .antMatchers("/reg/**").permitAll()
+            .antMatchers("/auth/**").permitAll()
 //            .hasIpAddress(prop.GATEWAY_IP)
             .antMatchers(HttpMethod.OPTIONS, "**/**").permitAll()
             .antMatchers(HttpMethod.HEAD, "**/**").permitAll()
