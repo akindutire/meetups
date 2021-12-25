@@ -2,6 +2,7 @@ package com.meet.user.registration.controller.api
 
 import com.meet.user.registration.contract.domain.RegistrationCt
 import com.meet.user.registration.request.core.RegReq
+import com.meet.user.registration.service.domain.RegistrationSvc
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus

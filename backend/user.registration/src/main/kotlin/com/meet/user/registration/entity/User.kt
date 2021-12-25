@@ -5,35 +5,35 @@ import javax.validation.constraints.Email
 
 @Entity
 @Table(name = "users")
-data class User(
+class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Long,
+    var id: Long = 0L
 
     @Column(name = "u_token", unique = true)
-    var userToken:String,
+    lateinit var userToken:String
 
     @Column(name = "name", nullable = false)
-    var name:String,
+    lateinit var name:String
 
     @Email
     @Column(name = "email", nullable = false, unique = true)
-    var email:String,
+    lateinit var email:String
 
     @Column(name = "pwd", nullable = false)
-    var encodedPass:String,
+    lateinit var encodedPass:String
 
     @Column(name = "age")
-    var age:Short,
+    var age:Short = 0
 
     @Column(name = "username", unique = true)
-    var username:String,
+    lateinit var username:String
 
     @Column(name = "addr")
-    var address:String,
+    lateinit var address:String
 
     @Column(name = "phone")
-    var phone:String
+    lateinit var phone:String
 
-)
+}

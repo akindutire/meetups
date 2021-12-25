@@ -26,4 +26,11 @@ spring:
             - Method=GET,POST,PUT
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+        - id : user_ws_login
+          uri: lb://USER-LOGIN
+          predicates:
+            - Path=/api/auth/**
+            - Method=GET,POST
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
 
