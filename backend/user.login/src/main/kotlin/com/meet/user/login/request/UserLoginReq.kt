@@ -8,5 +8,5 @@ class UserLoginReq {
     lateinit var emailOrUsername:String
 
     @NotEmpty(message = "password is required")
-    lateinit var pwd:String
+    lateinit var password:String
 }

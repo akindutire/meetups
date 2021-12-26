@@ -18,7 +18,8 @@ class PasswordResetCtrl {
         val map = HashMap<String, String?>()
         map.put("data", "Active")
 
-        val res = ResponseEntity<Any>(map, HttpStatus.OK);
+        val res = ResponseEntity<Any>(map, HttpStatus.OK)
+
 
         return res
     }

@@ -17,12 +17,13 @@ class UserRegMsWebSecurity: WebSecurityConfigurerAdapter() {
     lateinit var prop: AppProp
 
     override fun configure(http: HttpSecurity) {
-        http.csrf().disable().cors()
+        http.csrf().disable()
+            .cors()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-            .antMatchers("/reg/**").permitAll()
+            .antMatchers("/register/**").permitAll()
 //            .hasIpAddress(prop.GATEWAY_IP)
             .antMatchers(HttpMethod.OPTIONS, "**/**").permitAll()
             .antMatchers(HttpMethod.HEAD, "**/**").permitAll()

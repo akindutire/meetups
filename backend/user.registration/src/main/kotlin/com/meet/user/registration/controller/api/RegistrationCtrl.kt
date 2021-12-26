@@ -3,6 +3,7 @@ package com.meet.user.registration.controller.api
 import com.meet.user.registration.contract.domain.RegistrationCt
 import com.meet.user.registration.request.core.RegReq
 import com.meet.user.registration.service.domain.RegistrationSvc
+import lombok.extern.slf4j.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
@@ -12,7 +13,7 @@ import java.util.*
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/reg/")
+@RequestMapping("/register/")
 class RegistrationCtrl {
 
     @Autowired
@@ -20,7 +21,7 @@ class RegistrationCtrl {
     lateinit var registrationSvc: RegistrationCt
 
     @GetMapping("status")
-    fun welcome() : ResponseEntity<Any> {
+    fun status() : ResponseEntity<Any> {
 
         val map = HashMap<String, String?>()
         map.put("data", "Active")
@@ -30,7 +31,7 @@ class RegistrationCtrl {
         return res
     }
 
-    @PostMapping("join")
+    @PostMapping("home")
     fun join(@Valid @RequestBody registrationReq: RegReq) : ResponseEntity<Any> {
 
         val map = HashMap<String, Objects?>()

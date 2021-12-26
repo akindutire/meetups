@@ -17,7 +17,6 @@ class UserLoginMSSec: WebSecurityConfigurerAdapter() {
             .and()
             .authorizeRequests()
             .antMatchers("/auth/**").permitAll()
-//            .hasIpAddress(prop.GATEWAY_IP)
             .antMatchers(HttpMethod.OPTIONS, "**/**").permitAll()
             .antMatchers(HttpMethod.HEAD, "**/**").permitAll()
             .anyRequest().authenticated()
