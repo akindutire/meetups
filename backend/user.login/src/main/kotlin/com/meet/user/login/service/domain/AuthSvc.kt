@@ -11,8 +11,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.stereotype.Service
 import java.util.HashMap
 
+@Service("meet_auth")
 class AuthSvc : AuthCt{
 
     @Autowired

@@ -5,9 +5,11 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.stereotype.Component
 import java.util.*
 import kotlin.collections.HashMap
 
+@Component
 class JwtProvider {
 
     @Autowired

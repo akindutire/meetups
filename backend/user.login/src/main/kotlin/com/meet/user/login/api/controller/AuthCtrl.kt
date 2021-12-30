@@ -5,6 +5,8 @@ import com.meet.user.login.dto.UserLoginDTO
 import com.meet.user.login.request.UserLoginReq
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -16,13 +18,18 @@ import javax.validation.Valid
 class AuthCtrl {
 
     @Autowired
+    @Qualifier("meet_auth")
     lateinit var authSvc: AuthCt
+
+    @Value("jwt.token.secret")
+    lateinit var s:String
 
     @GetMapping("status")
     fun status() : ResponseEntity<Any> {
 
         val map = HashMap<String, String?>()
         map["data"] = "Active"
+        map["t"] = s
 
         val res = ResponseEntity<Any>(map, HttpStatus.OK)
 
