@@ -21,15 +21,12 @@ class AuthCtrl {
     @Qualifier("meet_auth")
     lateinit var authSvc: AuthCt
 
-    @Value("jwt.token.secret")
-    lateinit var s:String
 
     @GetMapping("status")
     fun status() : ResponseEntity<Any> {
 
         val map = HashMap<String, String?>()
         map["data"] = "Active"
-        map["t"] = s
 
         val res = ResponseEntity<Any>(map, HttpStatus.OK)
 
