@@ -19,7 +19,7 @@ class PasswordResetCtrl {
         map.put("data", "Active")
 
         val res = ResponseEntity<Any>(map, HttpStatus.OK)
-
+        
 
         return res
     }

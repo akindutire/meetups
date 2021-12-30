@@ -1,7 +1,10 @@
 package com.meet.user.login.api.controller
 
+import com.meet.user.login.contract.domain.AuthCt
+import com.meet.user.login.dto.UserLoginDTO
 import com.meet.user.login.request.UserLoginReq
-import com.meet.user.login.service.domain.AuthSvc
+import org.springframework.beans.BeanUtils
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -12,27 +15,24 @@ import javax.validation.Valid
 @RequestMapping("/auth/")
 class AuthCtrl {
 
-    lateinit var authSvc: AuthSvc
+    @Autowired
+    lateinit var authSvc: AuthCt
 
     @GetMapping("status")
     fun status() : ResponseEntity<Any> {
-        println("I got here")
-        val map = HashMap<String, String?>()
-        map.put("data", "Active")
 
-        val res = ResponseEntity<Any>(map, HttpStatus.OK);
+        val map = HashMap<String, String?>()
+        map["data"] = "Active"
+
+        val res = ResponseEntity<Any>(map, HttpStatus.OK)
 
         return res
     }
 
     @PostMapping("login")
     fun signIn(@Valid @RequestBody req: UserLoginReq) : ResponseEntity<Any> {
-        val map = HashMap<String, String?>()
-
-        map.put("data", req.emailOrUsername)
-
-        val res = ResponseEntity<Any>(map, HttpStatus.OK);
-
-        return res
+        val dto: UserLoginDTO = UserLoginDTO()
+        BeanUtils.copyProperties(req, dto)
+        return authSvc.login(dto)
     }
 }

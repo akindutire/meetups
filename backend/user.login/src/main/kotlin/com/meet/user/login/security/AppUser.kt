@@ -13,6 +13,7 @@ class AppUser : UserDetails{
     var isCredentialsNonExpiredd: Boolean = false
     var isEnabledd: Boolean = false
     lateinit var userType: Set<AppRole>
+    lateinit var userToken: String
 
     override fun getAuthorities(): Set<GrantedAuthority> = gAuth
 

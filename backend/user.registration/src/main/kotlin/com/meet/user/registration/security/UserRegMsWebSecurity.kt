@@ -29,5 +29,6 @@ class UserRegMsWebSecurity: WebSecurityConfigurerAdapter() {
             .antMatchers(HttpMethod.HEAD, "**/**").permitAll()
             .anyRequest().authenticated()
 
+            println()
     }
 }
