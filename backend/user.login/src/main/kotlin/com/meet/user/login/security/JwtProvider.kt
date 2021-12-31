@@ -19,11 +19,10 @@ class JwtProvider {
 
         val c = Calendar.getInstance()
         c.add(Calendar.SECOND, prop.EXPIRATION_SECONDS.toInt())
-        val detail = details?: HashMap()
 
         return Jwts.builder()
             .setSubject(userDetails.username)
-            .claim("details", detail)
+            .claim("details", details)
             .claim("detail_user_token", details?.get("user_token"))
             .claim("granted_authorities", userDetails.authorities)
             .setIssuedAt(Date())
