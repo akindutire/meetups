@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component
 @Component
 class AppProp {
 
-    @Value("gateway.ip")
-    lateinit var GATEWAY_IP:String
+
 
 }
