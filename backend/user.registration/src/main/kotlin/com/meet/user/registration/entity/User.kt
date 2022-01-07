@@ -31,9 +31,9 @@ class User {
     lateinit var username:String
 
     @Column(name = "addr")
-    lateinit var address:String
+    var address:String? = null
 
     @Column(name = "phone")
-    lateinit var phone:String
+    var phone:String? = null
 
 }

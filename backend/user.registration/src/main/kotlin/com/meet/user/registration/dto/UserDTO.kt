@@ -11,6 +11,6 @@ class UserDTO {
     var age:Short = 0
 
     lateinit var username:String
-    lateinit var address:String
+    var address:String? = null
     lateinit var userToken:String
 }

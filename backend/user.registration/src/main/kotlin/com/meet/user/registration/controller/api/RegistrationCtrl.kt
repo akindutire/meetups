@@ -31,14 +31,14 @@ class RegistrationCtrl {
         return res
     }
 
-    @PostMapping("home")
+    @PostMapping("step1")
     fun join(@Valid @RequestBody registrationReq: RegReq) : ResponseEntity<Any> {
 
-        val map = HashMap<String, Objects?>()
+        val map = HashMap<String, Any>()
 
-        registrationSvc.createUser(registrationReq)
 
-        map.put("data", null)
+        val data = registrationSvc.createUser(registrationReq)
+        map["data"] = data
 
 
         val res = ResponseEntity<Any>(map, HttpStatus.OK);

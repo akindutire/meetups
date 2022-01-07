@@ -24,7 +24,7 @@ class RegReq{
         if (field != confirmPassword) {
             throw ValidationException("Password and confirm password doesn't match")
         }
-        return password
+        return field
     }
 
     @NotBlank
