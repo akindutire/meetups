@@ -32,6 +32,15 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
             - AuthorizationFilter
+        - id : usr_event_res_r
+          uri: lb://USER-MEET-EVENT
+          predicates:
+            - Path=/api/event/**
+            - Method=GET,POST,PUT,DELETE
+            - Header=Authorization, Bearer {.*}
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
+            - AuthorizationFilter
         - id : user_ws_login
           uri: lb://USER-LOGIN
           predicates:
