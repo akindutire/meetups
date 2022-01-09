@@ -6,14 +6,9 @@ eureka:
     fetchRegistry: true
 
 spring:
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-
   application:
     name: MEET-GATEWAY
+
   cloud:
     loadbalancer:
       ribbon:

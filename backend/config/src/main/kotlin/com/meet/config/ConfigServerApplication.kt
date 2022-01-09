@@ -12,11 +12,4 @@ class ConfigServerApplication
 
 fun main(args: Array<String>) {
 	runApplication<ConfigServerApplication>(*args)
-
-//
-//
-//	@Bean
-//	fun bridge():BusBridge {
-//		return BusBridge {  }
-//	}
 }
