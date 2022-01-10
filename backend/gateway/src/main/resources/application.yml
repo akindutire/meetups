@@ -23,6 +23,13 @@ spring:
             - Method=GET,POST
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+        - id: user_ws_login
+            uri: lb://USER-LOGIN
+            predicates:
+              - Path=/api/auth/**
+              - Method=GET,POST
+            filters:
+              - RewritePath=/api/(?<segment>.*), /$\{segment}
         - id : pwd_res_r
           uri: lb://PWD-RESET
           predicates:
@@ -41,11 +48,14 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
             - AuthorizationFilter
-        - id : user_ws_login
-          uri: lb://USER-LOGIN
+        - id : usr_profile_res_r
+          uri: lb://USER-PROFILE
           predicates:
-            - Path=/api/auth/**
-            - Method=GET,POST
+            - Path = /api/user/profile/**
+            - Method = GET,POST,PUT,DELETE
+            - Header=Authorization, Bearer {.*}
           filters:
-            - RewritePath=/api/(?<segment>.*), /$\{segment}
+            - RewritePath=/api/user/(<segment>.*), /$\{segment}
+            - AuthorizationFilter
+
 
