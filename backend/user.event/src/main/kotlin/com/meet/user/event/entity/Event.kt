@@ -1,6 +1,6 @@
 package com.meet.user.event.entity
 
-import java.util.*
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -15,17 +15,20 @@ class Event {
     lateinit var ev_token:String
 
     @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
     lateinit var type:EventType
 
     @Column(name = "period", nullable = false)
     var period: Int = 0
 
     @Column(name = "created_at")
-    var createdAt: Date =
+    var createdAt: LocalDateTime = LocalDateTime.now()
+
+    @Column(name = "updated_at")
+    var updatedAt: LocalDateTime = LocalDateTime.now()
 }
 
 enum class EventType{
     SCHEDULED,
     SNAPPED,
-
 }
