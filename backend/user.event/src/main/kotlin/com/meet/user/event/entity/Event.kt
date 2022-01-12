@@ -1,6 +1,7 @@
 package com.meet.user.event.entity
 
 import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -26,6 +27,10 @@ class Event {
 
     @Column(name = "updated_at")
     var updatedAt: LocalDateTime = LocalDateTime.now()
+
+    @Column(name = "timezone")
+    var timezone: String = TimeZone.getDefault().displayName
+
 }
 
 enum class EventType{
