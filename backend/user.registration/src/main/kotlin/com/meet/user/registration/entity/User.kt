@@ -1,5 +1,7 @@
 package com.meet.user.registration.entity
 
+import java.time.LocalDateTime
+import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.Email
 
@@ -35,5 +37,15 @@ class User {
 
     @Column(name = "phone")
     var phone:String? = null
+
+    @Column(name="created_at")
+    var createdAt: LocalDateTime = LocalDateTime.now()
+
+    @Column(name="updated_at")
+    var updatedAt: LocalDateTime = LocalDateTime.now()
+
+
+    @Column(name = "timezone")
+    var timezone: String = TimeZone.getDefault().displayName
 
 }
