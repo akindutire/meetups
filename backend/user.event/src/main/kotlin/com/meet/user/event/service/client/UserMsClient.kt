@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.stereotype.Component
 import java.time.ZoneId
 
-@FeignClient(name = "USER_MS", fallbackFactory = UserMSClientFallbackFactory::class)
+@FeignClient(name = "USER-PROFILE", fallbackFactory = UserMSClientFallbackFactory::class)
 interface UserMsClient {
 
     fun getUserTimezone() : String {
