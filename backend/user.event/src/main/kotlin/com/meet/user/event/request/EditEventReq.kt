@@ -10,4 +10,7 @@ class EditEventReq {
     var expectedCapacity: Short? = null
 
     var expectedPeriod: Short? = null
+
+    var description: String? = null
+
 }

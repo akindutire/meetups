@@ -1,6 +1,7 @@
 package com.meet.user.event.controller.api
 
 import com.meet.user.event.contract.domain.EventCt
+import com.meet.user.event.dto.EventDto
 import com.meet.user.event.request.CreateEventReq
 import com.meet.user.event.request.EditEventReq
 import feign.Response
@@ -32,13 +33,15 @@ class EventCtrl {
     @PostMapping("create")
     fun create(@Valid @RequestBody req: CreateEventReq) : ResponseEntity<Any> {
         val map = HashMap<String, Any>()
-
+        val data: EventDto = eventSvc.create(req)
         return ResponseEntity(map, HttpStatus.OK)
     }
 
     @PutMapping("edit")
     fun edit(@Valid @RequestBody req: EditEventReq) : ResponseEntity<Any> {
         val map = HashMap<String, Any>()
+
+        val data: EventDto = eventSvc.edit(req)
 
         return ResponseEntity(map, HttpStatus.OK)
     }

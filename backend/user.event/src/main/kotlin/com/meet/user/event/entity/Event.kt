@@ -22,6 +22,12 @@ class Event {
     @Column(name = "period", nullable = false)
     var period: Int = 0
 
+    @Column(name = "capacity", nullable = false)
+    var capacity: Int = 0
+
+    @Column(name = "description", nullable = true)
+    lateinit var description:String
+
     @Column(name = "created_at")
     var createdAt: LocalDateTime = LocalDateTime.now()
 

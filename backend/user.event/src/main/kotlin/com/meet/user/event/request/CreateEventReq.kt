@@ -5,11 +5,11 @@ import javax.validation.constraints.NotBlank
 
 class CreateEventReq {
 
-    @NotBlank(message = "Event is required")
-    lateinit var name: String
-
     @NotBlank(message = "Event type is required")
     lateinit var type: EventType
+
+    @NotBlank(message = "Event description is required")
+    lateinit var description: String
 
     var expectedCapacity: Short? = null
 
