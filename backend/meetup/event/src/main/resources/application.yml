@@ -1,0 +1,27 @@
+server:
+  port: 8183
+
+spring:
+  application:
+    name: event
+  datasource:
+    username: "zil"
+    url: "jdbc:postgresql://localhost:5432/event"
+    password: "password"
+    driver-class-name: org.postgresql.Driver
+    #    platform: postgres
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL82Dialect
+        format_sql: 'true'
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8181/eureka
+
