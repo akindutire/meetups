@@ -1,0 +1,40 @@
+HELP.md
+appspec.yml
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.DS_Store
+.vscode/
+.gradle/
+/aza.pem
+/aza-ssh-pukky.ppk
+/src/.DS_Store
+/src/test/.DS_Store
+/src/main/resources/application-local.properties
+/src/main/resources/application-keystore.properties
