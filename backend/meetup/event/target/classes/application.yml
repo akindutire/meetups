@@ -4,6 +4,13 @@ server:
 spring:
   application:
     name: event
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    queue:
+      notif: "NOTIF_MQ"
   datasource:
     username: "zil"
     url: "jdbc:postgresql://localhost:5432/event"
@@ -19,6 +26,8 @@ spring:
       ddl-auto: update
     show-sql: 'true'
 
+  zipkin:
+    base-url: http://localhost:9411
 
 eureka:
   client:

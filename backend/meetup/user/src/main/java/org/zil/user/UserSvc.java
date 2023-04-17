@@ -1,5 +1,6 @@
 package org.zil.user;
 
+import org.springframework.cloud.sleuth.annotation.NewSpan;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,8 @@ public class UserSvc {
         return true;
     }
 
+    @NewSpan("finding-user")
     public Boolean isValid(Integer userId) {
-        return userRepo.findById(userId).isPresent();
+        return userRepo.existsById(userId);
     }
 }

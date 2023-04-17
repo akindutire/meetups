@@ -5,6 +5,21 @@ spring:
   application:
     name: eureka-server
 
+  sleuth:
+    enabled: false
+    reactor:
+      enabled: false
+    web:
+      enabled: false
+    async:
+      enabled: false
+      client:
+        template:
+          enabled: false
+  zipkin:
+      enabled: false
+#    base-url: http://localhost:9411
+
 eureka:
   client:
     fetch-registry: false
