@@ -38,7 +38,7 @@ public class EventSvc {
             throw new IllegalStateException("One of your event is existing within time window specified in start date");
 
         //if user exist
-        XValidUserRes res = mrest.getForObject("http://USER/api/v1/users/isvalid/{userId}", XValidUserRes.class, req.getOwnedBy());
+        XValidUserRes res = mrest.getForObject("http://USER/api/v1/user/isvalid/{userId}", XValidUserRes.class, req.getOwnedBy());
         if (res == null)
             throw new RuntimeException("Couldn't verify owning user genuinely");
 

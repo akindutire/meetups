@@ -1,4 +1,4 @@
-package org.zil.user;
+package org.zil.user.dto.internals;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserReq {
+public class UserRegReq {
 
     @NotBlank(message = "Name is required")
     private String name;

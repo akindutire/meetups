@@ -40,4 +40,17 @@ public class UserExceptionHandler {
 
         return new ResponseEntity<>(error, HttpStatus.OK);
     }
+
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<?> handleFallbackException(Exception e) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("message", e.getMessage());
+        error.put("status", HttpStatus.BAD_REQUEST);
+        error.put("mode", "JUST_ILLEGAL");
+        error.put("exception", e.getClass().getName());
+
+        log.info(Arrays.toString(e.getStackTrace()));
+
+        return new ResponseEntity<>(error, HttpStatus.OK);
+    }
 }

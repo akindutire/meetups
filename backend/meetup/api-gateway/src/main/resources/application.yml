@@ -1,0 +1,27 @@
+server:
+  port: 8185
+
+spring:
+  application:
+    name: gateway
+
+
+  zipkin:
+    base-url: http://zipkin:9411
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+
+      routes:
+        - id: event
+          uri: lb://EVENT
+          predicates:
+            - Path=/api/v1/events/**
+
+        - id: user
+          uri: lb://USER
+          predicates:
+            - Path=/api/v1/users/**

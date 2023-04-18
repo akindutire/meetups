@@ -14,13 +14,20 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL82Dialect
-        format_sql: 'true'
+        format_sql: true
     hibernate:
       ddl-auto: update
-    show-sql: 'true'
+    show-sql: true
 
   zipkin:
     base-url: http://localhost:9411
+
+  jwt:
+    secret:
+#      token: "63356465356164316634643836393631386464353564633835306632396563343035636466303764393732383632393932373232313535633864313838303531393539336665613061303464346133656538376164353933316537376365626164303663653933663235636561623361643265306630376336353832383737660a"
+      token: "c5de5ad1f4d869618dd55dc850f29ec405cdf07d972862992722155c8d1880519593fea0a04d4a3ee87ad5931e77cebad06ce93f25ceab3ad2e0f07c6582877f"
+    ttl: 120
+
 eureka:
   client:
     service-url:
