@@ -26,7 +26,7 @@ public class WebSecurityConfig {
 
     private final UserDetailsService userDetailsService;
     private final JWTAuthFilter jwtAuthFilter;
-
+    private final AuthEntryException authEntryException;
     @Bean
     public PasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -52,6 +52,8 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .cors()
                 .and()
+                .exceptionHandling().authenticationEntryPoint(authEntryException)
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
@@ -64,7 +66,7 @@ public class WebSecurityConfig {
                         ).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .authenticationProvider(authenticationProvider())
+                //.authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

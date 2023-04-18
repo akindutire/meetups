@@ -1,7 +1,11 @@
 package org.zil.user.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,9 +21,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.security.SignatureException;
+import java.util.*;
 
 @Component
 @AllArgsConstructor
@@ -43,7 +46,12 @@ public class JWTAuthFilter extends OncePerRequestFilter  {
         }
 
         jwtToken = authHeader.trim().substring(7);
-        userEmail = jwtSvc.extractUserEmailFromToken(jwtToken);
+        try {
+            userEmail = jwtSvc.extractUserEmailFromToken(jwtToken);
+        } catch (ExpiredJwtException e) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             //Not Authenticated yet and token is valid and needs to be authenticated
