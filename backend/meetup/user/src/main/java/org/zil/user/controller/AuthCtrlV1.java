@@ -2,13 +2,16 @@ package org.zil.user.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.zil.user.UserSvc;
 import org.zil.user.dto.externals.XValidUserRes;
+import org.zil.user.dto.internals.TokenValidationReq;
 import org.zil.user.dto.internals.UserLoginReq;
 import org.zil.user.dto.internals.UserRegReq;
+import org.zil.user.security.JWTSvc;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -21,6 +24,7 @@ import java.util.Map;
 public class AuthCtrlV1 {
 
     private final UserSvc userSvc;
+    private final JWTSvc jwtSvc;
 
     @PostMapping("login")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginReq req) {
@@ -50,6 +54,25 @@ public class AuthCtrlV1 {
         res.put("status", HttpStatus.OK.value());
         res.put("code", HttpStatus.OK);
         res.put("data", resp);
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PostMapping("validate")
+    public ResponseEntity<?> validate(@RequestBody TokenValidationReq req) {
+
+
+        Boolean resp =  jwtSvc.isTokenExpired(req.token());
+
+        Map<String, Object> res = new HashMap<>();
+
+        Map<String, Object> respp = new HashMap<>();
+        respp.put("expired", resp);
+
+        res.put("message", "Tok val");
+        res.put("status", HttpStatus.OK.value());
+        res.put("code", HttpStatus.OK);
+        res.put("data", respp);
 
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
