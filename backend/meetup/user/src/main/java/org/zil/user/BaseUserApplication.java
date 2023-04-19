@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @SpringBootApplication
 @EnableEurekaClient
-@Configuration
 public class BaseUserApplication {
 
     public static void main(String[] args) {
