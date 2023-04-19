@@ -1,0 +1,26 @@
+server:
+  port: 8186
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: busrefresh
+
+spring:
+  application:
+    name: config
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${SPRING_CONFIG_URI}
+          username: ${SPRING_CONFIG_USR}
+          password: ${SPRING_CONFIG_PWD}
+          clone-on-start: true
+          default-label: main
+      bus:
+        enabled: true
+        refresh:
+          enabled: true

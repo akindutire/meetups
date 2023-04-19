@@ -26,8 +26,8 @@ spring:
           uri: lb://USER/
           predicates:
             - Path=/api/v1/user/**
-          filters:
-            - AuthorizationFilter
+#          filters:
+#            - AuthorizationFilter
 
         - id: event
           uri: lb://EVENT/

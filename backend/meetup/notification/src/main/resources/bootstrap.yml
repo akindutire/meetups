@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: notification
+  config:
+    uri: http://${CONFIG_SERVER_HOST:localhost}:8186
+    profile: ${SPRING_CLOUD_PROFILES_ACTIVE:dev}
+    fail-fast: true

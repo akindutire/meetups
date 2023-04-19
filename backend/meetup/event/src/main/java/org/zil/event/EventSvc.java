@@ -32,7 +32,7 @@ public class EventSvc {
         if(!req.getStartAt().isAfter(LocalDateTime.now().minusSeconds(1L)))
             throw new IllegalStateException("Event start date cannot be behind the current time");
 
-        XValidUserRes res = mrest.getForObject("http://USER/api/v1/user/isvalid/email/{userId}", XValidUserRes.class, currentUserEmail);
+        XValidUserRes res = mrest.getForObject("http://GATEWAY/api/v1/user/isvalid/email/{userId}", XValidUserRes.class, currentUserEmail);
         if (res == null)
             throw new RuntimeException("Couldn't verify owning user genuinely");
 
@@ -46,7 +46,6 @@ public class EventSvc {
         Date start = Date.from(req.getStartAt().atZone(ZoneId.of("Africa/Lagos")).toInstant());
         if (eventRepo.findByOwnershipAndDateInBetweenDates(res.id(), start).size() > 0)
             throw new IllegalStateException("One of your event is existing within time window specified in start date");
-
 
         res = null;
 

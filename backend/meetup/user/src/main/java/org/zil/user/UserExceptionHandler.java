@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.ServletException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,52 +21,54 @@ public class UserExceptionHandler {
     @ExceptionHandler(value = DuplicateKeyException.class)
     public ResponseEntity<?> handleDuplicateKeyException(DuplicateKeyException e) {
         Map<String, Object> error = new HashMap<>();
-        error.put("message", e.getMessage());
+        error.put("error", e.getMessage());
         error.put("status", HttpStatus.IM_USED);
-        error.put("mode", "DUPLICATE_RECORD");
+        error.put("timestamp", LocalDateTime.now().toString());
+        error.put("path", "");
         error.put("exception", e.getClass().getName());
-
         log.info(Arrays.toString(e.getStackTrace()));
 
-        return new ResponseEntity<>(error, HttpStatus.OK);
+        return new ResponseEntity<>(error, HttpStatus.IM_USED);
     }
 
     @ExceptionHandler(value = IllegalStateException.class)
     public ResponseEntity<?> handleIllegalStateException(IllegalStateException e) {
         Map<String, Object> error = new HashMap<>();
-        error.put("message", e.getMessage());
+        error.put("error", e.getMessage());
         error.put("status", HttpStatus.BAD_REQUEST);
-        error.put("mode", "ILLEGAL_STATE_OF_REQUEST");
+        error.put("timestamp", LocalDateTime.now().toString());
+        error.put("path", "");
         error.put("exception", e.getClass().getName());
-
         log.info(Arrays.toString(e.getStackTrace()));
 
-        return new ResponseEntity<>(error, HttpStatus.OK);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = AuthorizationServiceException.class)
     public ResponseEntity<?> handleFallbackException(AuthorizationServiceException e) {
         Map<String, Object> error = new HashMap<>();
-        error.put("message", e.getMessage());
+        error.put("error", e.getMessage());
         error.put("status", HttpStatus.FORBIDDEN);
-        error.put("mode", "JUST_ILLEGAL");
+        error.put("timestamp", LocalDateTime.now().toString());
+        error.put("path", "");
         error.put("exception", e.getClass().getName());
 
         log.info(Arrays.toString(e.getStackTrace()));
 
-        return new ResponseEntity<>(error, HttpStatus.OK);
+        return new ResponseEntity<>(error, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<?> handleFallbackException(Exception e) {
         Map<String, Object> error = new HashMap<>();
-        error.put("message", e.getMessage());
+        error.put("error", e.getMessage());
         error.put("status", HttpStatus.BAD_REQUEST);
-        error.put("mode", "JUST_ILLEGAL");
+        error.put("timestamp", LocalDateTime.now().toString());
+        error.put("path", "");
         error.put("exception", e.getClass().getName());
 
         log.info(Arrays.toString(e.getStackTrace()));
 
-        return new ResponseEntity<>(error, HttpStatus.OK);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

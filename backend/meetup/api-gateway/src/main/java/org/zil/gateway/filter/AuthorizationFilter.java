@@ -4,7 +4,9 @@ import io.jsonwebtoken.Claims;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.Objects;
@@ -23,22 +25,25 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
-            exchange.getRequest().getURI();
             if(!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION))
-                throw new RuntimeException("Authorization header is required");
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authorization header is required");
 
             String authHeader = Objects.requireNonNull(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).get(0);
             String token = authHeader.substring(7);
 
             //Invoke jwt
-            Claims claims = jwtUtil.extractClaimsFromToken(token);
+            try {
+                Claims claims = jwtUtil.extractClaimsFromToken(token);
+                final Date expiration = claims.getExpiration();
+                if(expiration.before(new Date()))
+                    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Session has expired");
 
-            final Date expiration = claims.getExpiration();
-            if(expiration.before(new Date()))
-                throw new RuntimeException("Error! Your session has expired");
+                exchange.getRequest().mutate().header("x-auth-user-id", claims.getSubject()).build();
+                return chain.filter(exchange);
+            } catch (Exception e) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+            }
 
-            exchange.getRequest().mutate().header("x-auth-user-id", claims.getSubject());
-            return chain.filter(exchange);
         });
     }
 

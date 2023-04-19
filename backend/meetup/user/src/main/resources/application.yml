@@ -1,15 +1,10 @@
-server:
-  port: 8182
-
 spring:
-  application:
-    name: user
   datasource:
     username: "zil"
     url: "jdbc:postgresql://localhost:5432/user"
     password: "password"
     driver-class-name: org.postgresql.Driver
-#    platform: postgres
+  #    platform: postgres
   jpa:
     properties:
       hibernate:
@@ -18,16 +13,4 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
-  zipkin:
-    base-url: http://localhost:9411
-
-  jwt:
-    secret:
-      token: "c5de5ad1f4d869618dd55dc850f29ec405cdf07d972862992722155c8d1880519593fea0a04d4a3ee87ad5931e77cebad06ce93f25ceab3ad2e0f07c6582877f"
-    ttl: 120
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8181/eureka
+  jackson.serialization.fail-on-empty-beans: false
