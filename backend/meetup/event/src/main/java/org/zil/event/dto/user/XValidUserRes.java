@@ -1,4 +1,4 @@
 package org.zil.event.dto.user;
 
-public record XValidUserRes(Boolean exist) {
+public record XValidUserRes(Boolean exist, Integer id) {
 }

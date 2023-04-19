@@ -23,7 +23,14 @@ public class UserCtrlV1 {
 
     @GetMapping("isvalid/{userId}")
     public ResponseEntity<XValidUserRes> isValid(@Valid @PathVariable(name="userId") Integer userId) {
-        XValidUserRes res = new XValidUserRes(userSvc.isValid(userId));
+        XValidUserRes res = new XValidUserRes(userSvc.isValid(userId), userId);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @GetMapping("isvalid/email/{userId}")
+    public ResponseEntity<XValidUserRes> isValid(@Valid @PathVariable(name="userId") String email) {
+        Integer id = userSvc.isValid(email);
+        XValidUserRes res = new XValidUserRes(true, id);
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 

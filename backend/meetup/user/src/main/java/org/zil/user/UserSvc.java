@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.sleuth.annotation.NewSpan;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.zil.user.dto.internals.UserLoginReq;
@@ -79,9 +80,14 @@ public class UserSvc {
         return claim;
     }
 
-    @NewSpan("finding-user")
+    @NewSpan("finding-user-by-id")
     public Boolean isValid(Integer userId) {
         return userRepo.existsById(userId);
+    }
+
+    @NewSpan("finding-user-email")
+    public Integer isValid(String email) {
+        return userRepo.findByEmailOnly(email).orElseThrow( () -> new UsernameNotFoundException("Unable to validate user existence during system validation"));
     }
 
 }

@@ -3,10 +3,7 @@ package org.zil.event;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.zil.event.request.CreateEventReq;
 
 import javax.validation.Valid;
@@ -21,9 +18,9 @@ public class EventCtrlV1 {
     private final EventSvc eventSvc;
 
     @PostMapping("create")
-    public ResponseEntity<?> create(@Valid @RequestBody CreateEventReq req) {
+    public ResponseEntity<?> create(@Valid @RequestBody CreateEventReq req, @RequestHeader(name = "x-auth-user-id") String authEmail) {
 
-        boolean r = eventSvc.create(req);
+        boolean r = eventSvc.create(req, authEmail);
 
         Map<String, Object> res = new HashMap<>();
 

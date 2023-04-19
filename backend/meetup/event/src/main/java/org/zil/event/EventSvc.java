@@ -24,7 +24,10 @@ public class EventSvc {
     private final RabbitTemplate rabbitTemplate;
     private final EventConfig config;
 
-    public boolean create(CreateEventReq req) {
+    public boolean create(CreateEventReq req, String currentUserEmail) {
+
+        if (currentUserEmail == null)
+            throw new IllegalStateException("Can't handle this request, unable to resolve authorized user for this request");
 
         if(!req.getStartAt().isAfter(LocalDateTime.now().minusSeconds(1L)))
             throw new IllegalStateException("Event start date cannot be behind the current time");
@@ -38,7 +41,7 @@ public class EventSvc {
             throw new IllegalStateException("One of your event is existing within time window specified in start date");
 
         //if user exist
-        XValidUserRes res = mrest.getForObject("http://USER/api/v1/user/isvalid/{userId}", XValidUserRes.class, req.getOwnedBy());
+        XValidUserRes res = mrest.getForObject("http://USER/api/v1/user/isvalid/email/{userId}", XValidUserRes.class, currentUserEmail);
         if (res == null)
             throw new RuntimeException("Couldn't verify owning user genuinely");
 
@@ -49,7 +52,7 @@ public class EventSvc {
 
         Date end = Date.from(req.getStartAt().plusMinutes(req.getDuration()).atZone(ZoneId.of("Africa/Lagos")).toInstant());
 //        Event ev = Event.builder()
-//                .ownership(req.getOwnedBy())
+//                .ownership(res.id())
 //                .title(req.getTitle())
 //                .duration(req.getDuration())
 //                .startAt(start)
