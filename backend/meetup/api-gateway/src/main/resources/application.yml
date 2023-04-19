@@ -37,7 +37,10 @@ spring:
             - AuthorizationFilter
 
 
-
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
 
 eureka:
   client:

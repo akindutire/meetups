@@ -30,10 +30,6 @@ public class CreateEventReq {
     @Min(value = 5, message = "Duration(>=5) must be valid")
     private Integer duration;
 
-    @NotNull(message = "This event must be owned")
-    @Min(value = 1, message = "Owner id must be valid")
-    private Integer ownedBy;
-
     public LocalDateTime getStartAt() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return LocalDateTime.parse(startAt, dateFormatter);

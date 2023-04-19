@@ -1,7 +1,6 @@
 package org.zil.gateway.filter;
 
 import io.jsonwebtoken.Claims;
-import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -11,10 +10,16 @@ import java.util.Date;
 import java.util.Objects;
 
 @Component
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class AuthorizationFilter extends AbstractGatewayFilterFactory<AuthorizationFilter.Config> {
 
     private final JWTUtil jwtUtil;
+
+    public AuthorizationFilter(JWTUtil jwtUtil) {
+        super(Config.class);
+        this.jwtUtil = jwtUtil;
+    }
+
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
@@ -40,5 +45,4 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
     public static class Config{
 
     }
-
 }

@@ -32,21 +32,21 @@ public class EventSvc {
         if(!req.getStartAt().isAfter(LocalDateTime.now().minusSeconds(1L)))
             throw new IllegalStateException("Event start date cannot be behind the current time");
 
-        if (eventRepo.findByTitleAndOwnership(req.getTitle(), req.getOwnedBy()).isPresent())
-            throw new DuplicateKeyException("Event already in use");
-
-        //check if ownership has another event during same duration
-        Date start = Date.from(req.getStartAt().atZone(ZoneId.of("Africa/Lagos")).toInstant());
-        if (eventRepo.findByOwnershipAndDateInBetweenDates(req.getOwnedBy(), start).size() > 0)
-            throw new IllegalStateException("One of your event is existing within time window specified in start date");
-
-        //if user exist
         XValidUserRes res = mrest.getForObject("http://USER/api/v1/user/isvalid/email/{userId}", XValidUserRes.class, currentUserEmail);
         if (res == null)
             throw new RuntimeException("Couldn't verify owning user genuinely");
 
         if (!res.exist())
             throw new IllegalStateException("The owning user doesn't exist in the system");
+
+        if (eventRepo.findByTitleAndOwnership(req.getTitle(), res.id()).isPresent())
+            throw new DuplicateKeyException("Event already in use");
+
+        //check if ownership has another event during same duration
+        Date start = Date.from(req.getStartAt().atZone(ZoneId.of("Africa/Lagos")).toInstant());
+        if (eventRepo.findByOwnershipAndDateInBetweenDates(res.id(), start).size() > 0)
+            throw new IllegalStateException("One of your event is existing within time window specified in start date");
+
 
         res = null;
 

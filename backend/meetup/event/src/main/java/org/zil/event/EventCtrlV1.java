@@ -20,6 +20,8 @@ public class EventCtrlV1 {
     @PostMapping("create")
     public ResponseEntity<?> create(@Valid @RequestBody CreateEventReq req, @RequestHeader(name = "x-auth-user-id") String authEmail) {
 
+        System.out.println(authEmail);
+
         boolean r = eventSvc.create(req, authEmail);
 
         Map<String, Object> res = new HashMap<>();
