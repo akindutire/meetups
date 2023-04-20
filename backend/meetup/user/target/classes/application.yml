@@ -2,10 +2,12 @@ spring:
   application:
     name: user
   config:
-    import: configserver:http://${CONFIG_SERVER_HOST:localhost}:8186/
+    import: configserver:${CONFIG_SERVER_HOST:http://localhost}:8186/
   cloud:
     config:
       profile: ${SPRING_CLOUD_PROFILES_ACTIVE:dev}
+      username: meat
+      password: meat
       fail-fast: true
   datasource:
     username: ${PG_USER:zil}

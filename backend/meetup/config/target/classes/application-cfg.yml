@@ -1,11 +1,12 @@
 server:
   port: 8186
-
+  servlet:
+    session.timeout: 1m
 management:
   endpoints:
     web:
       exposure:
-        include: refresh
+        include: busrefresh,health,info
 
 spring:
   application:
@@ -15,6 +16,10 @@ spring:
     port: ${RABBITMQ_PORT}
     username: ${RABBITMQ_USERNAME}
     password: ${RABBITMQ_PASSWORD}
+  security:
+    user:
+      name: ${CFG_SERVER_USER}
+      password: ${CFG_SERVER_PWD}
 
   cloud:
     config:
