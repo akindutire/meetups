@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,13 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RefreshScope
 public class JWTSvc {
 
-    @Value("${spring.jwt.secret.token}")
+    @Value("${jwt.secret.token}")
     private String secretKey;
 
-    @Value("${spring.jwt.ttl}")
+    @Value("${jwt.ttl}")
     private Integer ttl;
 
     public String generateToken( UserDetails user) {

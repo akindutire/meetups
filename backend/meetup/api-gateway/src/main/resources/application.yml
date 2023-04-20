@@ -7,7 +7,14 @@ logging:
     reactor.netty.http.client: DEBUG
 
 spring:
+  application:
+    name: gateway
+  config:
+    import: configserver:http://${CONFIG_SERVER_HOST:localhost}:8186/
   cloud:
+    config:
+      profile: ${SPRING_CLOUD_PROFILES_ACTIVE:dev}
+      fail-fast: true
     gateway:
       discovery:
         locator:

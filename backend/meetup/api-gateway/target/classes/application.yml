@@ -1,16 +1,20 @@
 server:
   port: 8185
 
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
+
 spring:
   application:
     name: gateway
-  zipkin:
-    base-url: http://localhost:9411
-  jwt:
-    secret:
-      token: "c5de5ad1f4d869618dd55dc850f29ec405cdf07d972862992722155c8d1880519593fea0a04d4a3ee87ad5931e77cebad06ce93f25ceab3ad2e0f07c6582877f"
-    ttl: 120
+  config:
+    import: configserver:http://${CONFIG_SERVER_HOST:localhost}:8186/
   cloud:
+    config:
+      profile: ${SPRING_CLOUD_PROFILES_ACTIVE:dev}
+      fail-fast: true
     gateway:
       discovery:
         locator:
@@ -26,8 +30,6 @@ spring:
           uri: lb://USER/
           predicates:
             - Path=/api/v1/user/**
-#          filters:
-#            - AuthorizationFilter
 
         - id: event
           uri: lb://EVENT/
@@ -35,14 +37,3 @@ spring:
             - Path=/api/v1/event/**
           filters:
             - AuthorizationFilter
-
-
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    reactor.netty.http.client: DEBUG
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8181/eureka

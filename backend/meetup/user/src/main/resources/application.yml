@@ -1,8 +1,16 @@
 spring:
+  application:
+    name: user
+  config:
+    import: configserver:http://${CONFIG_SERVER_HOST:localhost}:8186/
+  cloud:
+    config:
+      profile: ${SPRING_CLOUD_PROFILES_ACTIVE:dev}
+      fail-fast: true
   datasource:
-    username: "zil"
-    url: "jdbc:postgresql://localhost:5432/user"
-    password: "password"
+    username: ${PG_USER:zil}
+    url: ${PG_URL:jdbc:postgresql://localhost:5432/user}
+    password: ${PG_PWD:password}
     driver-class-name: org.postgresql.Driver
   #    platform: postgres
   jpa:

@@ -15,10 +15,10 @@ import java.util.function.Function;
 @Component
 public class JWTUtil {
 
-    @Value("${spring.jwt.secret.token}")
+    @Value("${jwt.secret.token}")
     private String secretKey;
 
-    @Value("${spring.jwt.ttl}")
+    @Value("${jwt.ttl}")
     private Integer ttl;
 
     public String extractUserEmailFromToken(String token) {

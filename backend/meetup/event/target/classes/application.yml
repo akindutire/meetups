@@ -3,14 +3,17 @@ server:
 
 spring:
   application:
-    name: event
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+    name: gateway
     queue:
       notif: "NOTIF_MQ"
+  config:
+    import: configserver:http://${CONFIG_SERVER_HOST:localhost}:8186/
+  cloud:
+    config:
+      profile: ${SPRING_CLOUD_PROFILES_ACTIVE:dev}
+      fail-fast: true
+
+
   datasource:
     username: "zil"
     url: "jdbc:postgresql://localhost:5432/event"
@@ -25,12 +28,4 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: 'true'
-
-  zipkin:
-    base-url: http://localhost:9411
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8181/eureka
 

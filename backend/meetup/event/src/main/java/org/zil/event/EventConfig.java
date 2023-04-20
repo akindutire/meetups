@@ -22,7 +22,7 @@ public class EventConfig {
         return new RestTemplate();
     }
 
-    @Value("${spring.rabbitmq.queue.notif}")
+    @Value("${spring.application.queue.notif}")
     public String NOTIF_QUEUE;
 
     @Bean
