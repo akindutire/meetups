@@ -38,7 +38,7 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
                 if(expiration.before(new Date()))
                     throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Session has expired");
 
-                exchange.getRequest().mutate().header("x-auth-user-id", claims.getSubject()).build();
+                exchange.getRequest().mutate().header("x-auth-user-id", claims.getSubject()).header("x-token", token).build();
                 return chain.filter(exchange);
             } catch (Exception e) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());

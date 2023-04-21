@@ -1,0 +1,27 @@
+server:
+  port: 8187
+
+spring:
+  application:
+    name: service-bridge
+  config:
+    import: configserver:${CONFIG_SERVER_HOST:http://localhost}:8186/
+  cloud:
+    config:
+      profile: ${SPRING_CLOUD_PROFILES_ACTIVE:dev}
+      username: ${CONFIG_SERVER_USER:meat}
+      password: ${CONFIG_SERVER_PWD:meat}
+      fail-fast: true
+  sleuth:
+    enabled: false
+    reactor:
+      enabled: false
+    web:
+      enabled: false
+    async:
+      enabled: false
+      client:
+        template:
+          enabled: false
+  zipkin:
+    enabled: false

@@ -1,5 +1,6 @@
 package org.zil.user.controller;
 
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +27,7 @@ public class AuthCtrlV1 {
     private final UserSvc userSvc;
     private final JWTSvc jwtSvc;
 
+    @RateLimiter(name = "auth-login", fallbackMethod = "")
     @PostMapping("login")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginReq req) {
 
@@ -42,6 +44,7 @@ public class AuthCtrlV1 {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
+    @RateLimiter(name = "auth-register", fallbackMethod = "")
     @PostMapping("register")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegReq req) {
 

@@ -6,11 +6,24 @@ management:
   endpoints:
     web:
       exposure:
-        include: busrefresh,health,info
+        include: busrefresh,health,info,refresh
 
 spring:
   application:
     name: config
+  sleuth:
+    enabled: false
+    reactor:
+      enabled: false
+    web:
+      enabled: false
+    async:
+      enabled: false
+      client:
+        template:
+          enabled: false
+  zipkin:
+    enabled: false
   rabbitmq:
     host: ${RABBITMQ_HOST}
     port: ${RABBITMQ_PORT}

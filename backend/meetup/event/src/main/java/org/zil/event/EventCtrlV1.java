@@ -1,5 +1,7 @@
 package org.zil.event;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +20,13 @@ public class EventCtrlV1 {
     private final EventSvc eventSvc;
 
     @PostMapping("create")
-    public ResponseEntity<?> create(@Valid @RequestBody CreateEventReq req, @RequestHeader(name = "x-auth-user-id") String authEmail) {
+    public ResponseEntity<?> create(
+            @Valid @RequestBody CreateEventReq req,
+            @RequestHeader(name = "x-auth-user-id") String authEmail,
+            @RequestHeader(name = "x-token") String token
+    ) {
 
-        boolean r = eventSvc.create(req, authEmail);
+        boolean r = eventSvc.create(req, authEmail, token);
 
         Map<String, Object> res = new HashMap<>();
 
@@ -29,8 +35,15 @@ public class EventCtrlV1 {
             res.put("status", HttpStatus.OK.value());
             res.put("code", HttpStatus.OK);
             res.put("data", req);
+        } else {
+            res.put("message", req.getTitle() + " experienced some difficulties in operation, kindly retry");
+            res.put("status", HttpStatus.OK.value());
+            res.put("code", HttpStatus.OK);
+            res.put("data", req);
         }
 
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
+
+
 }
