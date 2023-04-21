@@ -1,3 +1,20 @@
+server:
+  port: 0
+
+resilience4j:
+  ratelimiter:
+    instances:
+      "auth-login":
+        registerHealthIndicator: false
+        limitForPeriod: 1
+        limitRefreshPeriod: 3s
+        timeoutDuration: 3s
+      auth-register:
+        registerHealthIndicator: false
+        limitForPeriod: 1
+        limitRefreshPeriod: 5s
+        timeoutDuration: 5s
+
 spring:
   application:
     name: user
@@ -6,8 +23,8 @@ spring:
   cloud:
     config:
       profile: ${SPRING_CLOUD_PROFILES_ACTIVE:dev}
-      username: meat
-      password: meat
+      username: ${CONFIG_SERVER_USER:meat}
+      password: ${CONFIG_SERVER_PWD:meat}
       fail-fast: true
   datasource:
     username: ${PG_USER:zil}

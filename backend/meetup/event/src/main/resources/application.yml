@@ -8,7 +8,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health,timelimiters,timelimiterevents
   endpoint:
     health:
       show-details: always
@@ -27,15 +27,15 @@ resilience4j:
         slidingWindowType: COUNT_BASED
   retry:
     instances:
-      create-event:
+      getUserValidConfirmation:
         registerHealthIndicator: false
-        maxRetryAttempts: 3
-        waitDuration: 3s
+        maxRetryAttempts: 2
+        waitDuration: 2s
 
 
 spring:
   application:
-    name: gateway
+    name: event
     queue:
       notif: "NOTIF_MQ"
   config:

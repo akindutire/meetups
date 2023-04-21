@@ -20,12 +20,9 @@ public class EventConfig {
     @Bean
     @LoadBalanced
     public RestTemplate rest() {
-        //This rest template bean will be anle choose between one or more instance of the target url
+        //This rest template bean will be able to choose between one or more instance of the target url
         return new RestTemplate();
     }
-
-    @Value("${gateway.base-url}")
-    public String GatewayBaseUri;
     @Value("${spring.application.queue.notif}")
     public String NOTIF_QUEUE;
 

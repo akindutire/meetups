@@ -2,8 +2,10 @@ package org.zil.event;
 
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -18,15 +20,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EventSvc {
 
     private final EventRepo eventRepo;
-    private final RestTemplate mrest;
+    private final GetUserValidityUtilSvc userValidityUtilSvc;
     private final RabbitTemplate rabbitTemplate;
     private final EventConfig config;
 
-    @Retry(name = "create-event", fallbackMethod = "createEventFallback")
     public boolean create(CreateEventReq req, String currentUserEmail, String authToken) {
 
         if (currentUserEmail == null)
@@ -35,21 +36,7 @@ public class EventSvc {
         if(!req.getStartAt().isAfter(LocalDateTime.now().minusSeconds(1L)))
             throw new IllegalStateException("Event start date cannot be behind the current time");
 
-        XValidUserRes res = null;
-        try{
-            HttpHeaders headers = new HttpHeaders();
-            headers.set(HttpHeaders.AUTHORIZATION, "Bearer "+authToken);
-            HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-
-            res = mrest.exchange(
-                    config.GatewayBaseUri+"/api/v1/user/isvalid/email/{userId}",
-                    HttpMethod.GET,
-                    requestEntity,
-                    XValidUserRes.class,
-                    currentUserEmail).getBody();
-        } catch (Exception e) {
-            throw new IllegalStateException("Unable to continue with request, owning user can't be verified");
-        }
+        XValidUserRes res = userValidityUtilSvc.getValidUserConfirmation(currentUserEmail, authToken);
 
         if (res == null)
             throw new RuntimeException("Couldn't verify owning user genuinely");
@@ -66,8 +53,6 @@ public class EventSvc {
             throw new IllegalStateException("One of your event is existing within time window specified in start date");
 
         res = null;
-
-
 
         Date end = Date.from(req.getStartAt().plusMinutes(req.getDuration()).atZone(ZoneId.of("Africa/Lagos")).toInstant());
 //        Event ev = Event.builder()
@@ -90,9 +75,5 @@ public class EventSvc {
 
         rabbitTemplate.convertAndSend(config.NOTIF_QUEUE, objectMap);
         return true;
-    }
-
-    public Boolean createEventFallback (Exception e) {
-        return false;
     }
 }

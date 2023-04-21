@@ -27,11 +27,11 @@ public class AuthCtrlV1 {
     private final UserSvc userSvc;
     private final JWTSvc jwtSvc;
 
-    @RateLimiter(name = "auth-login", fallbackMethod = "")
+    @RateLimiter(name = "auth-login", fallbackMethod = "loginFallback")
     @PostMapping("login")
     public ResponseEntity<?> login(@Valid @RequestBody UserLoginReq req) {
 
-        log.info("User login {}", req);
+        log.info("User login {}", req.email());
 
         Map<String, Object> resp = userSvc.authenticate(req);
         Map<String, Object> res = new HashMap<>();
@@ -44,7 +44,19 @@ public class AuthCtrlV1 {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @RateLimiter(name = "auth-register", fallbackMethod = "")
+    public ResponseEntity<?> loginFallback(Exception e) {
+        Map<String, Object> resp = new HashMap<>();
+        Map<String, Object> res = new HashMap<>();
+
+        res.put("message", "Login not successful, Too many request, please wait 3sec");
+        res.put("status", HttpStatus.OK.value());
+        res.put("code", HttpStatus.OK);
+        res.put("data", resp);
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @RateLimiter(name = "auth-register", fallbackMethod = "registrationFallback")
     @PostMapping("register")
     public ResponseEntity<?> register(@Valid @RequestBody UserRegReq req) {
 
@@ -60,6 +72,19 @@ public class AuthCtrlV1 {
 
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
+
+    public ResponseEntity<?> registrationFallback(Exception e) {
+        Map<String, Object> resp = new HashMap<>();
+        Map<String, Object> res = new HashMap<>();
+
+        res.put("message", "Registration not successful, Too many request, please wait 5sec");
+        res.put("status", HttpStatus.OK.value());
+        res.put("code", HttpStatus.OK);
+        res.put("data", resp);
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
 
     @PostMapping("validate")
     public ResponseEntity<?> validate(@RequestBody TokenValidationReq req) {

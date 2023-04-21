@@ -1,9 +1,44 @@
 server:
-  port: 8183
+  port: 0
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,timelimiters,timelimiterevents
+  endpoint:
+    health:
+      show-details: always
+resilience4j:
+  instances:
+    getUserValidConfirmation:
+      timeoutDuration: 3s
+  circuitbreaker:
+    instances:
+      eventActions:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+  retry:
+    instances:
+      getUserValidConfirmation:
+        registerHealthIndicator: false
+        maxRetryAttempts: 2
+        waitDuration: 2s
+
 
 spring:
   application:
-    name: gateway
+    name: event
     queue:
       notif: "NOTIF_MQ"
   config:
