@@ -43,7 +43,7 @@ spring:
           password: ${SPRING_CONFIG_PWD}
           clone-on-start: true
           default-label: main
-      bus:
-        enabled: true
-        refresh:
-          enabled: true
+#      bus:
+#        enabled: true
+#        refresh:
+#          enabled: true
